@@ -122,5 +122,5 @@ Replace tip names of resulted tree to the ones that are meaningful and formal.
 
 ### Contact <a name="contact"></a>
 
-Kristopher Kieft, kieft@wisc.edu  
-Zhichao Zhou, zzhou388@wisc.edu 
+Zhichao Zhou,  zczhou2017@gmail.com & zzhou388@wisc.edu
+
