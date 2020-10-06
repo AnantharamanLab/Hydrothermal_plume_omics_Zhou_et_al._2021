@@ -9,7 +9,7 @@ Zhichao Zhou
 Karthik Anantharaman  
 University of Wisconsin-Madison 
 
-[Anantharaman Lab](https://https://anantharamanlab.com/)
+[Anantharaman Lab](https://anantharamanlab.com/)
 
 
 ## Table of Contents:
