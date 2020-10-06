@@ -1,4 +1,4 @@
-# Kieft_and_Zhou_et_al._2020
+# Hydrothermal_plume_omics_Zhou_et_al._2020
 
 This GitHub repository contains bioinformatic analyzing methods within the manuscript XXX need to change_Ecology of inorganic sulfur auxiliary metabolism in widespread bacteriophages_
 
@@ -123,4 +123,3 @@ Replace tip names of resulted tree to the ones that are meaningful and formal.
 ### Contact <a name="contact"></a>
 
 Zhichao Zhou,  zczhou2017@gmail.com & zzhou388@wisc.edu
-
