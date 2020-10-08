@@ -30,7 +30,9 @@ University of Wisconsin-Madison
 
 
 ### Phage analysis <a name="phage analysis"></a>
-_Dependencies_: Perl v5+, Bowtie 2 v2.3.4.1,  jgi_summarize_bam_contig_depths (implemented in MetaWrap), Diamond v0.9.28.129, MAFFT v7.271, IQ-TREE v1.6.9
+_Dependencies_: Perl v5.22.1, MMseqs2 Version: 7.4e23d, Python 3.5.2
+
+(Higher version of each software should be OK, normally. Detailed information for backward compatibility could be found in the official website for each software )
 
 _Explanation to each step in the pipeline:_  
 
@@ -41,6 +43,14 @@ Get the statistics of phage coding density from VIBRANT result. This will give a
 02.Run_phage_taxonomy.pl and phage_taxonomy_tool_v6.py
 
 Get phage taxonomy at subfamily level. Resulted folder contains two files: "~.VIVID.protein-taxonomy.tsv" and “~.VIVID.virus-taxonomy.tsv”, showing phage protein and phage genome taxonomy results respectively.
+
+03.Change_seq_head.pl
+
+Change the head of sequences in a given fasta/faa file to 1) replace space to underscore, and cut head by its first "\t", and 2) add plume ID to sequence head. This helps to separate each metagenome, and make tracing each metagenome and each scaffold easier in the downstream analysis.
+
+04.Run_mmseqs_to_all_phage_proteins.sh
+
+Run MMseqs2 to cluster all phage proteins, detailed settings being listed in the shell script. 
 
 
 
