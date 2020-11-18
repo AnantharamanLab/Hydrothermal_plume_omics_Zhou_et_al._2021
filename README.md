@@ -98,7 +98,7 @@ The result suggests unknown phages share limited sequence similarity and can har
 
 Mapping metagenomic and metatranscriptomic reads separately for each environment
 
-_Dependencies_: Perl v5.22.1, Bowtie 2 v2.3.4.1, jgi_summarize_bam_contig_depths (within metaWrap v1.0.2), (pileup.sh) BBmap
+_Dependencies_: Perl v5.22.1, Bowtie 2 v2.3.4.1, jgi_summarize_bam_contig_depths (within metaWrap v1.0.2), pileup.sh (within BBmap)
 
 (Higher version of each software should be OK, normally. Detailed information for backward compatibility could be found in the official website for each software )
 
