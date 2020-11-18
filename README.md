@@ -178,7 +178,7 @@ Make percentage table based on input table
 
 ### Core microbiome analysis input fasta files <a name="core_microbiome"></a>
 
-We put the fasta files into the folder of "Core_microbiome_analysis_input_fasta_files".  One could recover and extract the tgz file like this:
+We put all the fasta files into the folder of "Core_microbiome_analysis_input_fasta_files".  One could recover and extract the tar.gz file like this:
 
 cat fasta_files.tar.gz* > fasta_files.tar.gz ; tar xzf fasta_files.tar.gz
 
