@@ -17,11 +17,15 @@ University of Wisconsin-Madison
 ## Table of Contents:
 
 
-2. [Phage analysis](#phage_analysis)
-3. [Metagenome and metatranscriptome mapping](#mapping)
-4. [Comparison among three ecosystems](#comparison)
-4. [Core microbiome analysis input fasta files](#core_microbiome)
-5. [Contact](#contact)
+[Phage analysis](#phage_analysis)
+
+[Metagenome and metatranscriptome mapping](#mapping)
+
+[Comparison among three ecosystems](#comparison)
+
+[Core microbiome analysis input fasta files](#core_microbiome)
+
+[Contact](#contact)
 
 
 ## Explanations
