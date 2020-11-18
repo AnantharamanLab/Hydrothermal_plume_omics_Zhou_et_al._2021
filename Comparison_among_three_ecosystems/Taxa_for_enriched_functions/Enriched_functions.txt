@@ -1,0 +1,14 @@
+B.Lau.mean	TIGR00014
+P.Lau.mean	TIGR00014
+P.Lau.mean	KEGG.B20
+P.Lau.mean	KEGG.B22
+P.GyBn.mean	KEGG.B01
+P.GyBn.mean	KEGG.B05
+P.GyBn.mean	TIGR00455
+P.Lau.mean	TIGR01428
+B.Cym.mean	TIGR01428
+B.Cym.mean	TIGR02416
+P.Cym.mean	TIGR02416
+P.Cym.mean	carbon_monoxide_dehydrogenase_coxS
+P.Cym.mean	methanol_dehydrogenase_pqq_xoxF_mxaF
+P.Cym.mean	TIGR01428

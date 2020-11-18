@@ -1,6 +1,8 @@
 # Hydrothermal_plume_omics_Zhou_et_al._2020
 
-This GitHub repository contains bioinformatic analyzing methods within the manuscript XXX need to change_Ecology of inorganic sulfur auxiliary metabolism in widespread bacteriophages_
+This GitHub repository contains bioinformatic analyzing methods within the manuscript:
+
+ XXX
 
 The bioRxiv preprint of this manuscript can be found [here](https://www.biorxiv.org/content/10.1101/2020.08.24.253096v1). 
 
@@ -13,20 +15,16 @@ University of Wisconsin-Madison
 
 
 ## Table of Contents:
-1. [Data files](#data)
+
+
 2. [Phage analysis](#phage analysis)
-3. [Phage to bacterial sulfur-related AMG ratio calculation](#map)
-4. [Metatranscriptomic mapping](#ratio)
+3. [Metagenome and metatranscriptome mapping](#mapping)
+4. [Comparison among three ecosystems](#comparison)
+4. [Core microbiome analysis input fasta files](#core_microbiome)
 5. [Contact](#contact)
 
 
 ## Explanations
-
-
-### Data Files <a name="data"></a>
-
-* `Kieft_and_Zhou_et_al_2020.genomes.fasta`: all 191 vMAG genome sequences used in this study  
-* `Kieft_and_Zhou_et_al_2020.proteins.faa`: all predicted protein sequences for the vMAGs used in this study  
 
 
 ### Phage analysis <a name="phage analysis"></a>
@@ -96,82 +94,102 @@ The result suggests unknown phages share limited sequence similarity and can har
 
 
 
-### Phage to bacterial sulfur-related AMG ratio calculation <a name="map"></a>
+### Metagenome and metatranscriptome mapping <a name="mapping"></a>
 
-_Dependencies_: Perl v5+, Bowtie 2 v2.3.4.1,  jgi_summarize_bam_contig_depths (implemented in MetaWrap), Diamond v0.9.28.129, MAFFT v7.271, IQ-TREE v1.6.9
+Mapping metagenomic and metatranscriptomic reads separately for each environment
+
+_Dependencies_: Perl v5.22.1, Bowtie 2 v2.3.4.1, jgi_summarize_bam_contig_depths (within metaWrap v1.0.2), (pileup.sh) BBmap
+
+(Higher version of each software should be OK, normally. Detailed information for backward compatibility could be found in the official website for each software )
+
+_Explanation to each step in the pipeline:_   
+
+**Step 1**  01.Transcriptom_mapping.Sep_Mapping.in_33.pl
+
+Concatenate all the genes from genomes within each environment to make the mapping reference file. Use the QC-passed and rRNA-filtered metatranscriptomic reads to map against the reference file by Bowtie 2. The template input files, including "Transcriptom_map.mdf.txt" and "MAG_info.txt", are provided in the folder. In "Transcriptom_map.mdf.txt", metatranscriptomic reads are the reads that are labeled with "cDNA" in the second column.
+
+**Step 2**  02.metagenome_mapping.Sep_Mapping.in_33.pl
+
+Concatenate all the genomes within each environment to make the mapping reference file. Use the QC-passed metagenomic reads to map against the reference file by Bowtie 2. The template input files, including "Transcriptom_map.mdf.txt" and "MAG_info.txt", are provided in the folder.  In "Transcriptom_map.mdf.txt", metagenomic reads are the reads that are labeled with "DNA" in the second column.
+
+**Step 3**  03.calculate_metagenome_to_MAG_depth.Sep_Mapping.pl
+
+Calculate depth files based on "sorted.bam" files resulted from Step 2 (for metagenomes). "jgi_summarize_bam_contig_depths"  within metaWrap is used to do the calculation.
+
+**Step 4**  04.pileup_to_calculate_gene_reads_abundance_for_MetaT.Sep_Mapping.sh
+
+Calculate depth files based on "sorted.bam" files resulted from Step 1 (for metatranscriptomes). "pileup.sh" within BBmap is used to do the calculation.
+
+**Step 5**  05.calculate_MAG_average_coverage.Sep_Mapping.pl
+
+Calculate each MAG average coverage based on the result from Step 3. Resulted files are named as "*.MAG_average_coverage.txt". We normalize each metagenomic datasets to the size of 100M reads.
+
+**Step 6**  06.parse_pileup_info.Sep_Mapping.pl
+
+Parse the pileup outputs from Step 4.
+
+**Step 7**  07.calculate_MetaT_RPKM.Sep_Mapping.pl
+
+Calculate each gene average MetaT expression level based on the result from Step 6. Resulted files are named as "*.MetaT.RPKM.txt", and all the resulted values are in RPKM.
+
+### Comparison among three ecosystems <a name="comparison"></a>
+
+_Dependencies_: Perl v5.22.1, R version 4.0.2, R Studio Version 1.3.1073
+
+(Higher version of each software should be OK, normally. Detailed information for backward compatibility could be found in the official website for each software )
 
 _Explanation to each step in the pipeline:_    
-01.metagenome_mapping.pl    
-Concatenate all the genes from metagenome as the mapping reference; Use Bowtie 2 to map filterd and QC-processed reads; Finally get sorted bam files as the result. The metadata file "Metagenome_map.txt" was used to allow processing mutiple metagenomes mapping by this script.    
+**Step 1**  01.get_the_statistics_of_group_MetaG_abundance.pl
 
-02.calculate_metagenome_to_MAG_depth.pl    
-Use "jgi_summarize_bam_contig_depths" to calculate gene coverage.    
+This script will produce a table named "MetaG.10times.3_ecosystem.Group2MetaG_id_MetaG.xls" which contains the total gene coverage (10 times of the original gene coverage) of each microbial group. The gene coverage was used by multiplying 10, because the original numbers are too small. After this, we make a new table, named "MetaG.10times.3_ecosystem.Group2MetaG_id_MetaG.integer.txt" which transfers all the numbers from the previous table into integers. This will be used as the input for R script "DESeq2.MAG.coverage.3ecosystem.R ". The template input files, including "MAG_average_coverage.10times.txt" and "MAG_info.txt", are provided in the folder.
 
-03.grep_dsrA_list.sh    
-Grep _dsrA_ genes from metagenome. Each IMG metagenome has its annotation by the DOE IMG database. We used the annotation to pre-select _dsrA_ genes from each metagenome. It needs further manual curation.  
+**Step 2**  02.get_the_statistics_of_group_MetaG_abundance_for_each_environment.pl
 
-04.calculate_viral_to_bacterial_sulfur-related_AMG_ratio.pl    
-Read gene coverage result from Step #2. Calculate the viral to bacterial total sulfur-related AMG gene coverage ratio for each metagenome.    
+This script will produce two tables named "MAG_average_coverage.Group2Row_Mean_MetaG.xls" and "MAG_average_coverage.Group2Row_Mean_MetaG_each_bin.xls". This script is the same as the Step 1 script, while it is adjusted for each environment.  The template input files, including "MAG_average_coverage.row_mean.simple.txt" and "MAG_info.txt", are provided in the folder for each environment. "MAG_average_coverage.row_mean.simple.txt" was made by taking the mean value of each row (including the background and plume mean values) for each environment based on "MAG_average_coverage.10times.txt". 
 
-05.grep_all_dsrA_gene.pl    
-Grep all the dsrA gene encoding proteins from the metagenome.    
+**Step 3**  03.parse_fun_normalized_abundance.Sep_Mapping.MetaT.v2.pl
 
-06.run_blastp.sh    
-Run Diamond Blastp for all the DsrA sequences.    
+Calculate normalized coverage for each function trait. The input each genome metagenome coverage files are from Step 5 of Metagenome and metatranscriptome mapping (values are transformed into percentage for each environment). Resulted files are names as "*.Fun2MetaG_abundance.txt". All the results are then combined into "Functional_analysis_summary.mdf.txt" (numbers are transferred into integers), which is provided in the folder.
 
-07.parse_blast_result.sh    
-Parse the Diamond Blastp result.    
+**Step 4**  04.get_taxa_for_enriched_functions.pl
 
-08.find_top_non_virus_hit.pl    
-Parse the Diamond Blastp result to screen for top 10 non-virus hits, which will be downloaded and used as reference sequences to build phylogenetic tree.    
+Get the microbial community contribution information to the enriched functions in each environment. The "enriched functions" (refer to "Enriched_functions.txt") are functions that are significantly enriched in each environment calculated by Step 3 and Rscript 2. The template input files, including "MAG_info.txt", "Fun_result.txt", "MetaG.10times_coverage.txt", and "Enriched_functions.txt", are provided in the folder. Resulted files are named as "Enriched_fun_micro_grp.*.txt".
 
-09.make_dsrA_tree.pl    
-Use viral and bacterial DsrA sequences, and reference DsrA sequences from Step #8, to build phylogenetic tree. MAFFT was used to align the sequences, and IQ-TREE was used to build the tree.    
+**Step 5**  05.get_taxa_for_major_functions.pl
 
-10.Replace_tip_names.pl    
-Replace tip names of resulted tree to the ones that are meaningful and formal.       
-
-11.calculate_viral_to_bacterial_sulfur-related_AMG_ratio_according_to_taxonomy.pl
-Firstly, divide the viral and bacterial sequences to each category according to their taxonomy. Then, calculate their AMG gene coverage ratios.    
-
-12.calculate_viral_to_putative_host_bacterial_pair_sulfur-related_AMG_ratio.pl        
-Firstly, get the viral to putative host bacterial pair information. Then, calculate viral and bacterial sequence gene coverage percentage values within each pair (the gene coverage values of viral and bacterial sequence were all normalized by gene numbers). Fianlly, calcualte the viral to putative host bacterial gene coverage ratios.
+Get the microbial community contribution information to the major functions in each environment. The major functions include functions that are in the categories of carbon fixation, denitrification, sulfur cycling, hydrogen oxidation, and methane oxidation. The template input files, including "MAG_info.txt", "Fun_result.txt", "MetaG.10times_coverage.txt", and "Major_functions.txt", are provided in the folder. Resulted files are named as "Major_fun_micro_grp.*.txt".
 
 
-### Metatranscriptomic mapping <a name="ratio"></a>
 
-_Dependencies_: Perl v5+, Bowtie 2 v2.3.4.1,  pileup (implemented in BBmap), Diamond v0.9.28.129, MAFFT v7.271, IQ-TREE v1.6.9    
+*Rscripts*：
 
-01.Transcriptom_mapping.pl    
-Concatenate all the genes from metagenome as the mapping reference; Use Bowtie 2 to map filterd, QC-processed and rRNA removed metatranscriptomic reads; Finally get sorted bam files as the result. The metadata file "Transcriptome_map.txt" was used to allow processing mutiple metatranscriptomes mapping by this script.        
+**Rscript 1** DESeq2.MAG.coverage.3ecosystem.R 
+Perform DESeq2 analyses to compare the microbial community difference among different background and plume environment pairs, including B.Cym vs B.Lau, P.Cym vs P.Lau, P.Cym vs P.GyBn, and P.GyBn vs P.Lau. The Log2 Fold Change and *P*-value are calculated for each microbial group and included in the result.
 
-02.pileup_to_calculate_gene_reads_abundance_for_MetaT.sh
-Use "pileup.sh" to calculate gene abundance.   
+**Rscript 2** DESeq2.MAG.function_analysis.3ecosystem.R 
 
-03.parse_pileup_info.pl    
-Parse pileup result.    
+Perform DESeq2 analyses to compare the microbial function difference among different background and plume environment pairs, including B.Cym vs B.Lau, P.Cym vs P.Lau, P.Cym vs P.GyBn, and P.GyBn vs P.Lau. The Log2 Fold Change and *P*-value are calculated for each microbial group and included in the result.
 
-04.calculate_MetaT_RPKM.pl    
-Calculate the gene expression result by normalizing gene abundance by read numbers (1 million reads) and gene length (1k).    
+**Rscript 3** make_percentage_table.R
 
-05.parse_MetaT_RPKM_result.pl    
-Parse to get MetaT RPKM results for targeted genes.    
+Make percentage table based on input table
 
-06.run_blastp.sh    
-Run Diamond Blastp for all the DsrA sequences.    
 
-07.parse_blast_result.sh    
-Parse the Diamond Blastp result.    
 
-08.find_top_non_virus_hit.pl     
-Parse the Diamond Blastp result to screen for top 10 non-virus hits, which will be downloaded and used as reference sequences to build phylogenetic tree.     
+### Core microbiome analysis input fasta files <a name="core_microbiome"></a>
 
-09.make_dsrA_tree.pl    
-Use viral and bacterial DsrA sequences, and reference DsrA sequences from Step #8, to build phylogenetic tree. MAFFT was used to align the sequences, and IQ-TREE was used to build the tree.     
+We put the fasta files into the folder of "Core_microbiome_analysis_input_fasta_files".  One could recover and extract the tgz file like this:
 
-10.Replace_tip_names.pl    
-Replace tip names of resulted tree to the ones that are meaningful and formal.    
+cat fasta_files.tar.gz* > fasta_files.tar.gz ; tar xzf fasta_files.tar.gz
+
+The routine [QIIME](http://qiime.org/) 16S rRNA gene analyzing method was used to interpret the microbial community pattern.  
+
+
+
+​    
 
 ### Contact <a name="contact"></a>
 
 Zhichao Zhou,  zczhou2017@gmail.com & zzhou388@wisc.edu
+
+Karthik Anantharaman,   karthik@bact.wisc.edu 
