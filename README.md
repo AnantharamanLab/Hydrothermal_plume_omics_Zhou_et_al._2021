@@ -17,7 +17,7 @@ University of Wisconsin-Madison
 ## Table of Contents:
 
 
-2. [Phage analysis](#phage analysis)
+2. [Phage analysis](#phage_analysis)
 3. [Metagenome and metatranscriptome mapping](#mapping)
 4. [Comparison among three ecosystems](#comparison)
 4. [Core microbiome analysis input fasta files](#core_microbiome)
@@ -27,7 +27,7 @@ University of Wisconsin-Madison
 ## Explanations
 
 
-### Phage analysis <a name="phage analysis"></a>
+### Phage analysis <a name="phage_analysis"></a>
 _Dependencies_: Perl v5.22.1, MMseqs2 Version: 7.4e23d, Python 3.5.2
 
 (Higher version of each software should be OK, normally. Detailed information for backward compatibility could be found in the official website for each software )
