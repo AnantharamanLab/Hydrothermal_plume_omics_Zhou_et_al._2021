@@ -1,0 +1,8 @@
+CymS.P.Mean	PF03892
+CymS.P.Mean	rubisco_form_I
+CymS.P.Mean	TIGR02374
+CymS.P.Mean	TIGR02378
+CymS.B.Mean	carbon_monoxide_dehydrogenase_coxS
+CymS.B.Mean	carbon_monoxide_dehydrogenase_coxM
+CymS.B.Mean	TIGR02821
+CymS.B.Mean	TIGR03313

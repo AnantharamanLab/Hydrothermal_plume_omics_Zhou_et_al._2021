@@ -1,0 +1,26 @@
+Head	PF03892	TIGR02374	TIGR02378	TIGR02821	TIGR03313	carbon_monoxide_dehydrogenase_coxM	carbon_monoxide_dehydrogenase_coxS	rubisco_form_I
+Acidobacteria	0	0	0	0	0	0	0.00949589717778815	0
+Actinobacteria	0	0	0	0	1	0.000840560915702597	0.00286066855854269	0
+Alphaproteobacteria	0	0	0	0	0	0.00105286936431402	0.00275262702569588	0
+Alphaproteobacteria-Pelagibacterales	0	0	0	0	0	0.306356435628206	0.496474868705323	0
+Alphaproteobacteria-Rhodospirillales	0	0	0	0	0	0.00968520177393708	0.016057868781256	0
+Alphaproteobacteria-UBA7887	0	0	0	0	0	0	0.00120928548152348	0
+Chloroflexi	0	0	0	0	0	0.469048884672422	0.347222119398148	0
+Deltaproteobacteria-SAR324	0	0	0	0	0	0.085578036075325	0.037289275525078	0
+Epsilonproteobacteria-Campylobacterales	0	0	0	0	0	0	0	0
+Gammaproteobacteria-LS-SOB	0	0	0	1	0	0.0993208399391447	0.0617037788279595	0
+Gammaproteobacteria-Nitrosococcales	0	0.0955311494152928	0.0944842368957887	0	0	0	0	0
+Gammaproteobacteria-Pseudomonadales	0	0	0	0	0	0.000956156817598607	0.00124989062562385	0
+Gammaproteobacteria-SAR86	0	0	0	0	0	0	0	0
+Gammaproteobacteria-Thiomicrospirales	1	0.904468850584707	0.894556902817155	0	0	0	0	1
+Gammaproteobacteria-UBA11654	0	0	0	0	0	0.00237629378773712	0.00155314864379687	0
+Gemmatimonadetes	0	0	0	0	0	0	0.0062582785857117	0
+Latescibacteria	0	0	0	0	0	0.00422177989665649	0.00137968035659956	0
+Marine Group II	0	0	0	0	0	0	0	0
+Marine Group III	0	0	0	0	0	0	0	0
+Marinimicrobia	0	0	0	0	0	0.00513793450913257	0.00945171032846746	0
+Planctomycetes	0	0	0	0	0	0	0	0
+Poribacteria	0	0	0	0	0	0.015425006619824	0.00504090197848631	0
+Thaumarchaeota	0	0	0	0	0	0	0	0
+Unknown	0	0	0.0109588602870562	0	0	0	0	0
+Verrucomicrobia	0	0	0	0	0	0	0	0

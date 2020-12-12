@@ -23,6 +23,8 @@ University of Wisconsin-Madison
 
 [Comparison among three ecosystems](#comparison)
 
+[Comparison within Mid-Cayman Rise ecosystem](#comparison_cayman)
+
 [Core microbiome analysis input fasta files](#core_microbiome)
 
 [Contact](#contact)
@@ -136,6 +138,8 @@ Parse the pileup outputs from Step 4.
 
 Calculate each gene average MetaT expression level based on the result from Step 6. Resulted files are named as "*.MetaT.RPKM.txt", and all the resulted values are in RPKM.
 
+
+
 ### Comparison among three ecosystems <a name="comparison"></a>
 
 _Dependencies_: Perl v5.22.1, R version 4.0.2, R Studio Version 1.3.1073
@@ -172,13 +176,107 @@ Perform DESeq2 analyses to compare the microbial community difference among diff
 
 **Rscript 2** DESeq2.MAG.function_analysis.3ecosystem.R 
 
-Perform DESeq2 analyses to compare the microbial function difference among different background and plume environment pairs, including B.Cym vs B.Lau, P.Cym vs P.Lau, P.Cym vs P.GyBn, and P.GyBn vs P.Lau. The Log2 Fold Change and *P*-value are calculated for each microbial group and included in the result.
+Perform DESeq2 analyses to compare the microbial function difference among different background and plume environment pairs, including B.Cym vs B.Lau, P.Cym vs P.Lau, P.Cym vs P.GyBn, and P.GyBn vs P.Lau. The Log2 Fold Change and adjusted *P*-value are calculated for each microbial group and included in the result.
 
 **Rscript 3** make_percentage_table.R
 
 Make percentage table based on input table
 
 
+
+### Comparison within Mid-Cayman Rise ecosystem <a name="comparison_cayman"></a>
+
+_Dependencies_: Perl v5.22.1, Bowtie 2 v2.3.4.1, jgi_summarize_bam_contig_depths (within metaWrap v1.0.2), pileup.sh (within BBmap)
+
+(Higher version of each software should be OK, normally. Detailed information for backward compatibility could be found in the official website for each software )
+
+_Explanation to each step in the pipeline:_   
+
+**Step 1**  01.Transcriptom_mapping_in_33.pl
+
+Concatenate all the genes from genomes within Mid-Cayman Rise ecosystem (Von Damm and Piccard) to make the mapping reference file (The MAGs from Mid-Cayman Rise ecosystem were given in "Cayman_MAG.txt"). Use the QC-passed and rRNA-filtered metatranscriptomic reads to map against the reference file by Bowtie 2. The template input files, including "Transcriptom_map.txt" and "Cayman_MAG.txt", are provided in the folder. In "Transcriptom_map.txt", metatranscriptomic reads are the reads that are labeled with "cDNA" in the second column.
+
+**Step 2**  02.metagenome_mapping_in_33.pl
+
+Concatenate all the genomes within Mid-Cayman Rise ecosystem (Von Damm and Piccard) to make the mapping reference file (The MAGs from Mid-Cayman Rise ecosystem were given in "Cayman_MAG.txt"). Use the QC-passed metagenomic reads to map against the reference file by Bowtie 2. The template input files, including "Transcriptom_map.txt" and "Cayman_MAG.txt", are provided in the folder.  In "Transcriptom_map.txt", metagenomic reads are the reads that are labeled with "DNA" in the second column.
+
+**Step 3**  03.calculate_metagenome_to_MAG_depth.sh
+
+Calculate depth files based on "sorted.bam" files resulted from Step 2 (for metagenomes). "jgi_summarize_bam_contig_depths"  within metaWrap is used to do the calculation.
+
+**Step 4**  04.pileup_to_calculate_gene_reads_abundance_for_MetaT.sh
+
+Calculate depth files based on "sorted.bam" files resulted from Step 1 (for metatranscriptomes). "pileup.sh" within BBmap is used to do the calculation.
+
+**Step 5**  05.calculate_MAG_average_coverage.pl
+
+Calculate each MAG average coverage based on the result from Step 3. Resulted files are named as "*.MAG_average_coverage.txt". We normalize each metagenomic datasets to the size of 100M reads.
+
+**Step 6**  06.parse_pileup_info.pl
+
+Parse the pileup outputs from Step 4.
+
+**Step 7**  07.calculate_MetaT_RPKM.pl
+
+Calculate each gene average MetaT expression level based on the result from Step 6. Resulted files are named as "*.MetaT.RPKM.txt", and all the resulted values are in RPKM.
+
+**Step 8**  08.parse_fun_normalized_abundance_v2.pl
+
+Calculate normalized coverage for each function trait. The input each genome metagenome coverage files are from Step 5 of metagenome mapping ("MAG_average_coverage.txt"). Resulted files are names as "Fun2MetaG_abundance.txt". 
+
+**Step 9**  09.parse_fun_MetaT_RPKM_v2.pl
+
+Calculate normalized coverage for each function trait. The input each genome metatranscriptome coverage (or referred to as expression abundance) files are from Step 7 of metagenome mapping ("MetaT.RPKM.txt"). Resulted files are names as "Fun2MetaT_abundance.txt". 
+
+#### **Sub-analysis**:
+
+1. ##### DESeq2 for p value
+
+   **Step 1** 01.find_bin_info.pl
+
+   Make bin list according to the input MAG information.
+
+   **Step 2** 02.parse_MetaT_MAG_average_RPKM.pl
+
+   Parse the result of each gene average MetaT expression level (*.MetaT.RPKM.txt) into each MAG MetaT expression level ("Bin2MetaT_abundance.txt"). 
+
+   **Step 3** 03.make.heatmap.table.01.CymD.MAG.MetaG.coverage.pl
+
+   ​            03.make.heatmap.table.02.CymS.MAG.MetaG.coverage.pl
+
+   ​            03.make.heatmap.table.03.CymD.MAG.MetaT.coverage.pl
+
+   ​            03.make.heatmap.table.04.CymS.MAG.MetaT.coverage.pl
+
+   ​            03.make.heatmap.table.08.CymS.Fun.MetaG.coverage.pl
+
+   ​            03.make.heatmap.table.12.CymS.Fun.MetaT.coverage.pl
+
+   Make heatmap tables by using DESeq2-generated results (Rscript 1 results) which are used as inputs for "Heatmap.original.R".
+
+   
+
+2. ##### Taxa for enriched functions
+
+   **Step 1** 01.get_taxa_for_enriched_functions.MetaG.pl
+
+   Get the microbial community contribution information (based on metagenome) to the enriched functions in each Mid-Cayman Rise sample. The "enriched functions" (refer to "Enriched_functions.txt") are functions that are significantly enriched in each Mid-Cayman Rise sample calculated by DESeq2 for p value Step 3. The template input files, including "MAG_info.Cayman.txt", "Fun_result.txt", "MAG_average_coverage.mdf.txt" (use the mean values of all background and plume samples, respectively), and "Enriched_functions.txt", are provided in the folder. Resulted files are named as "Enriched_fun_micro_grp.*.metaG.txt".
+
+   **Step 2** 02.get_taxa_for_enriched_functions.MetaT.pl
+
+   Get the microbial community contribution information (based on metatranscriptome) to the enriched functions in each Mid-Cayman Rise sample. The "enriched functions" (refer to "Enriched_functions.metaT.txt") are functions that are significantly enriched in each Mid-Cayman Rise sample calculated by DESeq2 for p value Step 3. The template input files, including "MAG_info.Cayman.txt", "Fun_result.txt", "Bin2MetaT_abundance.mdf.txt" (use the mean values of all background and plume samples, respectively), and "Enriched_functions.metaT.txt", are provided in the folder. Resulted files are named as "Enriched_fun_micro_grp.*.metaT.txt".
+
+*Rscripts*：
+
+**Rscript 1** DESeq2.MAG.coverage.CymD.CymS.R
+
+Perform DESeq2 analyses to compare the microbial community and function difference within Mid-Cayman Rise background and plume pairs, including: CymD.MAG.MetaG/CymS.MAG.MetaG (background and plume comparison for MAG composition based on metagenomes for CymD and CymS),  CymD.MAG.MetaT/CymS.MAG.MetaT (background and plume comparison for MAG composition based on metatranscriptomes for CymD and CymS),  CymD.Fun.MetaG/CymS.Fun.MetaG (background and plume comparison for functional trait based on metagenomes for CymD and CymS), and CymD.Fun.MetaT/CymS.Fun.MetaT (background and plume comparison for functional trait based on metatranscriptomes for CymD and CymS). Here, CymD stands for Piccard (Cayman Deep) and CymS stands for Von Damm (Cayman Shallow). The Log2 Fold Change and adjusted *P*-value are calculated for each microbial group and included in the result.
+
+We provided the input files for this R script, which are "CymD.10times.transpose.MAG.MetaG.coverage.txt", "CymS.10times.transpose.MAG.MetaG.coverage.txt", "CymD.100times.MAG.MetaT.coverage.txt", "CymS.100times.MAG.MetaT.coverage.txt", "CymD.Fun2MetaG.txt", “CymS.Fun2MetaG.txt”, "CymD.Fun2MetaT.txt", and "CymS.Fun2MetaT.txt". These are modified subsets from the original files of "MAG_average_coverage.txt" (from Step 5), "Bin2MetaT_abundance.txt" (from Step7 and DESeq2 for p value Step 2), "Fun2MetaG_abundance.txt" (from Step 8), and "Fun2MetaT_abundance.txt" (from Step 9). Since that the numbers in input files should be integers, we multiplied the original MAG abundance and expression abundance by 10 times and 100 times as one can find in the name of input files, e.g., "*10times.transpose*" and "*100times*".  
+
+**Rscript 2** Heatmap.original.R
+
+Make heatmaps based on input files.
 
 ### Core microbiome analysis input fasta files <a name="core_microbiome"></a>
 
