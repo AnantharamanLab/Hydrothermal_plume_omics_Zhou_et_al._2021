@@ -289,7 +289,7 @@ Make heatmaps based on input files.
 
 ### Core microbiome analysis input fasta files <a name="core_microbiome"></a>
 
-_Dependencies_:  QIIME v.1.8.0 
+_Dependencies_:  QIIME v.1.9.1 
 
 (QIIME was used here but not QIIME2 due to that we only processed fasta files but not fastq files)
 
