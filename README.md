@@ -26,7 +26,7 @@ Department of Bacteriology, University of Wisconsin-Madison
 
 [Comparison within Mid-Cayman Rise ecosystem](#comparison_cayman)
 
-[Core microbiome analysis input fasta files](#core_microbiome)
+[Key microbiome analysis input fasta files](#key_microbiome)
 
 [Energy distribution calculation based on MetaGs](#energy_distribution)
 
@@ -287,13 +287,13 @@ Make heatmaps based on input files.
 
 
 
-### Core microbiome analysis input fasta files <a name="core_microbiome"></a>
+### Key microbiome analysis input fasta files <a name="key_microbiome"></a>
 
 _Dependencies_:  QIIME v.1.9.1 
 
-(QIIME was used here but not QIIME2 due to that we only processed fasta files but not fastq files)
+(QIIME was used here but not QIIME 2 due to that we only processed fasta files but not fastq files)
 
-We put all the fasta files into the folder of "Core_microbiome_analysis_input_fasta_files".  One could recover and extract the tar.gz file like this:
+We put all the fasta files into the folder of "Key_microbiome_analysis_input_fasta_files".  One could recover and extract the tar.gz file like this:
 
 cat fasta_files.tar.gz* > fasta_files.tar.gz ; tar xzf fasta_files.tar.gz
 
