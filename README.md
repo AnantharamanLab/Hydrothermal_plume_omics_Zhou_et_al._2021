@@ -137,9 +137,9 @@ Calculate each MAG average coverage based on the result from Step 3. Resulted fi
 
 Parse the pileup outputs from Step 4.
 
-**Step 7**  07.calculate_MetaT_RPKM.Sep_Mapping.pl
+**Step 7**  07.calculate_MetaT_TPM.Sep_Mapping.pl
 
-Calculate each gene average MetaT expression level based on the result from Step 6. Resulted files are named as "*.MetaT.RPKM.txt", and all the resulted values are in RPKM.
+Calculate each gene average MetaT expression level based on the result from Step 6. Resulted files are named as "*.MetaT.TPM.txt", and all the resulted values are in TPM.
 
 
 
@@ -219,17 +219,17 @@ Calculate each MAG average coverage based on the result from Step 3. Resulted fi
 
 Parse the pileup outputs from Step 4.
 
-**Step 7**  07.calculate_MetaT_RPKM.pl
+**Step 7**  07.calculate_MetaT_TPM.pl
 
-Calculate each gene average MetaT expression level based on the result from Step 6. Resulted files are named as "*.MetaT.RPKM.txt", and all the resulted values are in RPKM.
+Calculate each gene average MetaT expression level based on the result from Step 6. Resulted files are named as "*.MetaT.TPM.txt", and all the resulted values are in TPM.
 
 **Step 8**  08.parse_fun_normalized_abundance_v2.pl
 
 Calculate normalized coverage for each function trait based on metagenomes. The input files for MAG metagenome coverage are from Step 5 of metagenome mapping ("*.MAG_average_coverage.txt"). Resulted files are named as "Fun2MetaG_abundance.txt". 
 
-**Step 9**  09.parse_fun_MetaT_RPKM_v2.pl
+**Step 9**  09.parse_fun_MetaT_TPM_v2.pl
 
-Calculate normalized coverage for each function trait based on metatranscriptomes. The input files for MAG metatranscriptome coverage (or referred to as MAG expression level) files are from Step 7 of metatranscriptome mapping ("MetaT.RPKM.txt"). Resulted files are named as "Fun2MetaT_abundance.txt". 
+Calculate normalized coverage for each function trait based on metatranscriptomes. The input files for MAG metatranscriptome coverage (or referred to as MAG expression level) files are from Step 7 of metatranscriptome mapping ("MetaT.TPM.txt"). Resulted files are named as "Fun2MetaT_abundance.txt". 
 
 #### **Sub-analysis**:
 
@@ -239,9 +239,9 @@ Calculate normalized coverage for each function trait based on metatranscriptome
 
    Make bin list according to the input MAG information.
 
-   **Step 2** 02.parse_MetaT_MAG_average_RPKM.pl
+   **Step 2** 02.parse_MetaT_MAG_average_TPM.pl
 
-   Parse the result of each gene average MetaT expression level ("*.MetaT.RPKM.txt") into each MAG MetaT expression level ("Bin2MetaT_abundance.txt"). 
+   Parse the result of each gene average MetaT expression level ("*.MetaT.TPM.txt") into each MAG MetaT expression level ("Bin2MetaT_abundance.txt"). 
 
    **Step 3** 03.make.heatmap.table.01.CymD.MAG.MetaG.coverage.pl
 
