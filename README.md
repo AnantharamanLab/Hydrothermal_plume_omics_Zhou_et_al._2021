@@ -139,7 +139,7 @@ Parse the pileup outputs from Step 4.
 
 **Step 7**  07.calculate_MetaT_TPM.Sep_Mapping.pl
 
-Calculate each gene average MetaT expression level based on the result from Step 6. Resulted files are named as "*.MetaT.TPM.txt", and all the resulted values are in TPM.
+Calculate each gene average MetaT expression level based on the result from Step 6. Resulted files are named as "*.MetaT.TPM.txt", and all the resulted values are in [TPM](https://rna-seqblog.com/rpkm-fpkm-and-tpm-clearly-explained/).
 
 
 
