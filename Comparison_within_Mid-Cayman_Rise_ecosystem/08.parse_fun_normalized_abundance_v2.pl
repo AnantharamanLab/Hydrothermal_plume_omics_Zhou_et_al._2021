@@ -15,6 +15,8 @@ MEROPS	172
 
 #hmm result
 my $hmm_result = "/mnt/storage7/zhouzhichao/BinProject/hydrothermal_plume_omics/MAG_analysis/do_hmm_annotation/All_faa.total.hmmscan.result.txt";
+#hmm iron_and_magnesium_oxidation dir; result files are ended with .hmmscan.result.txt
+my $hmm_iron_and_magnesium_oxidation_result = "/mnt/storage7/zhouzhichao/BinProject/hydrothermal_plume_omics/MAG_analysis/do_hmm_annotation_iron_magnesium/All_faa.total.hmmscan.result.txt";
 #custom_blastp result
 my $blastp_result = "/mnt/storage7/zhouzhichao/BinProject/hydrothermal_plume_omics/MAG_analysis/custom_blastp/All_faa.total.custom_blastp.result.txt";
 #KEGG_function result
@@ -74,8 +76,36 @@ while (<IN>){
 }
 close IN;
 
+open IN, $hmm_iron_and_magnesium_oxidation_result;
+while (<IN>){
+	chomp;
+	my @tmp = split (/\t/);
+	if ($tmp[0] !~ /SZU/){
+		@head_hmm_result = @tmp;
+	}else{
+		my ($genome) = $tmp[0] =~ /\_(SZU.+?)$/; #print "$genome\n";
+		$Bin_id{$genome} = 1;
+		for(my $i=1; $i<=$#head_hmm_result; $i++){
+			my $fun = $head_hmm_result[$i];
+			$Fun_result{$genome}{$fun} = $tmp[$i];
+		}			
+	}
+}
+close IN;
+
 @head_hmm_result= ();
 open IN, "/mnt/storage7/zhouzhichao/BinProject/hydrothermal_plume_omics/MAG_analysis/do_hmm_annotation/hmm_order.list";
+while (<IN>){
+	chomp;
+	if (!/^#/){
+		my @tmp = split (/\t/);
+		my ($tmp2) = $tmp[2] =~ /^(.+?)\./;
+		push @head_hmm_result, $tmp2;
+	}
+}
+close IN;
+
+open IN, "/mnt/storage7/zhouzhichao/BinProject/hydrothermal_plume_omics/MAG_analysis/do_hmm_annotation_iron_magnesium/hmm_order.list";
 while (<IN>){
 	chomp;
 	if (!/^#/){

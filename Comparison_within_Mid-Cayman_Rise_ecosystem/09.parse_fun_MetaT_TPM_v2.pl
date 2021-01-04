@@ -15,6 +15,8 @@ MEROPS	172
 
 #hmm dir; result files are ended with .hmmscan.result.txt
 my $hmm_dir = "/mnt/storage7/zhouzhichao/BinProject/hydrothermal_plume_omics/MAG_analysis/do_hmm_annotation";
+#hmm iron_and_magnesium_oxidation dir; result files are ended with .hmmscan.result.txt
+my $hmm_iron_and_magnesium_oxidation_dir = "/mnt/storage7/zhouzhichao/BinProject/hydrothermal_plume_omics/MAG_analysis/do_hmm_annotation_iron_magnesium/";
 #custom_blastp dir; result files are ended with .custom_blastp.result.txt
 my $blastp_dir = "/mnt/storage7/zhouzhichao/BinProject/hydrothermal_plume_omics/MAG_analysis/custom_blastp";
 #KEGG_function dir; result files are ended with .KEGG_function.result.txt
@@ -25,6 +27,14 @@ my $dbCAN_dir = "/mnt/storage7/zhouzhichao/BinProject/hydrothermal_plume_omics/M
 my $MEROPS_dir = "/mnt/storage7/zhouzhichao/BinProject/hydrothermal_plume_omics/MAG_analysis/MEROPS/Extracellular_analysis";
 
 my %MetaT_TPM = (); # gene => MetaT => TPM
+
+my @Fun_id = ();
+open IN, "Fun_id.txt";
+while (<IN>){
+	chomp;
+	push @Fun_id, $_;
+}
+close IN;
 
 my @head = ();
 open IN, "/mnt/storage7/zhouzhichao/BinProject/hydrothermal_plume_omics/Cayman_Mapping.MetaT_new/MetaT.TPM.txt";
@@ -56,10 +66,11 @@ close IN;
 
 #-----------------------------------
 my %gene_id = (); # Store all genes
-my %Fun_id = (); # Store the function ids
-my @Fun_id = ();
+#my %Fun_id = (); # Store the function ids
+#my @Fun_id = ();
 my %Bin_id = (); # Store the bin (aka. genome) names
 my %Fun_result = (); # fun => bin => genes
+my %Gene2Fun = (); # gene => fun
 open IN, "ls $hmm_dir/*SZU*.hmmscan.result.txt | ";
 while (<IN>){
 	chomp;
@@ -70,15 +81,44 @@ while (<IN>){
 		chomp;
 		my @tmp = split (/\t/);
 		my $fun = $tmp[0]; 
-		if (!exists $Fun_id{$fun}){
-			$Fun_id{$fun} = 1;
-			push @Fun_id, $fun;
-		}
+		#if (!exists $Fun_id{$fun}){
+		#	$Fun_id{$fun} = 1;
+		#	push @Fun_id, $fun;
+		#}
 		my @genes = ();
 		for(my $i=1; $i<=$#tmp; $i++){
 			push @genes, $tmp[$i];
 			if ($tmp[$i]){
 				$gene_id{$tmp[$i]} = 1;
+				$Gene2Fun{$tmp[$i]} = $fun; # Store gene => fun   !!!Some genes get two/more functions (such pmoA and amoA); So the results should be checked manually.
+			}
+		}
+		$Fun_result{$fun}{$bin} = join("\t",@genes);
+	}
+	close INN;
+}
+close IN;
+
+open IN, "ls $hmm_iron_and_magnesium_oxidation_dir/*SZU*.hmmscan.result.txt | ";
+while (<IN>){
+	chomp;
+	my $file = $_;
+	my ($bin) = $_ =~ /.+?\_(SZU.+?)\.hmmscan\.result\.txt/; $Bin_id{$bin} = 1;
+	open INN, $file;
+	while (<INN>){
+		chomp;
+		my @tmp = split (/\t/);
+		my $fun = $tmp[0]; 
+		#if (!exists $Fun_id{$fun}){
+		#	$Fun_id{$fun} = 1;
+		#	push @Fun_id, $fun;
+		#}
+		my @genes = ();
+		for(my $i=1; $i<=$#tmp; $i++){
+			push @genes, $tmp[$i];
+			if ($tmp[$i]){
+				$gene_id{$tmp[$i]} = 1;
+				$Gene2Fun{$tmp[$i]} = $fun; 
 			}
 		}
 		$Fun_result{$fun}{$bin} = join("\t",@genes);
@@ -97,15 +137,16 @@ while (<IN>){
 		chomp;
 		my @tmp = split (/\t/);
 		my $fun = $tmp[0]; 
-		if (!exists $Fun_id{$fun}){
-			$Fun_id{$fun} = 1;
-			push @Fun_id, $fun;
-		}
+		#if (!exists $Fun_id{$fun}){
+		#	$Fun_id{$fun} = 1;
+		#	push @Fun_id, $fun;
+		#}
 		my @genes = ();
 		for(my $i=1; $i<=$#tmp; $i++){
 			push @genes, $tmp[$i];
 			if ($tmp[$i]){
 				$gene_id{$tmp[$i]} = 1;
+				$Gene2Fun{$tmp[$i]} = $fun; 
 			}			
 		}
 		$Fun_result{$fun}{$bin} = join("\t",@genes);
@@ -124,15 +165,16 @@ while (<IN>){
 		chomp;
 		my @tmp = split (/\t/);
 		my $fun = $tmp[0]; 
-		if (!exists $Fun_id{$fun}){
-			$Fun_id{$fun} = 1;
-			push @Fun_id, $fun;
-		}
+		#if (!exists $Fun_id{$fun}){
+		#	$Fun_id{$fun} = 1;
+		#	push @Fun_id, $fun;
+		#}
 		my @genes = ();
 		for(my $i=1; $i<=$#tmp; $i++){
 			push @genes, $tmp[$i];
 			if ($tmp[$i]){
 				$gene_id{$tmp[$i]} = 1;
+				$Gene2Fun{$tmp[$i]} = $fun; 
 			}			
 		}
 		$Fun_result{$fun}{$bin} = join("\t",@genes);
@@ -151,15 +193,16 @@ while (<IN>){
 		chomp;
 		my @tmp = split (/\t/);
 		my $fun = $tmp[0]; 
-		if (!exists $Fun_id{$fun}){
-			$Fun_id{$fun} = 1;
-			push @Fun_id, $fun;
-		}
+		#if (!exists $Fun_id{$fun}){
+		#	$Fun_id{$fun} = 1;
+		#	push @Fun_id, $fun;
+		#}
 		my @genes = ();
 		for(my $i=1; $i<=$#tmp; $i++){
 			push @genes, $tmp[$i];
 			if ($tmp[$i]){
 				$gene_id{$tmp[$i]} = 1;
+				$Gene2Fun{$tmp[$i]} = $fun; 
 			}			
 		}
 		$Fun_result{$fun}{$bin} = join("\t",@genes);
@@ -178,15 +221,16 @@ while (<IN>){
 		chomp;
 		my @tmp = split (/\t/);
 		my $fun = $tmp[0]; 
-		if (!exists $Fun_id{$fun}){
-			$Fun_id{$fun} = 1;
-			push @Fun_id, $fun;
-		}
+		#if (!exists $Fun_id{$fun}){
+		#	$Fun_id{$fun} = 1;
+		#	push @Fun_id, $fun;
+		#}
 		my @genes = ();
 		for(my $i=1; $i<=$#tmp; $i++){
 			push @genes, $tmp[$i];
 			if ($tmp[$i]){
 				$gene_id{$tmp[$i]} = 1;
+				$Gene2Fun{$tmp[$i]} = $fun;
 			}			
 		}
 		$Fun_result{$fun}{$bin} = join("\t",@genes);
@@ -199,29 +243,24 @@ close IN;
 
 #-----------------------------------
 
-
-
-
-
 my %Fun2MetaT = (); #Fun => MetaT => added in total MetaT TPM
-foreach my $fun (sort keys %Fun_id){
+foreach my $gene (sort keys %gene_id){
 	foreach my $MetaT (sort keys %MetaT_id){
-		my $MetaT_TPM_value = 0;		
-		foreach my $bin (sort keys %Bin_id){
-			foreach my $gene (sort keys %gene_id){
-				if ($Fun_result{$fun}{$bin} && $Fun_result{$fun}{$bin} =~ /$gene/){   # my %Fun_result = (); # fun => bin => genes
-					if ($MetaT_TPM{$gene}{$MetaT}){
-						$MetaT_TPM_value += $MetaT_TPM{$gene}{$MetaT}; # my %MetaT_TPM = (); # gene => MetaT => TPM
-					}else{
-						$MetaT_TPM_value += 0;
-					}					
-				}
+		my $TPM = 0; 
+		if ($MetaT_TPM{$gene}{$MetaT}){
+			$TPM = $MetaT_TPM{$gene}{$MetaT}; #print "$TPM\n";
+		}
+		
+		if (exists $Gene2Fun{$gene}){  # %Gene2Fun: gene => fun
+			my $fun = $Gene2Fun{$gene};
+			if (!exists $Fun2MetaT{$fun}{$MetaT}){
+				$Fun2MetaT{$fun}{$MetaT} = $TPM;
+			}else{
+				$Fun2MetaT{$fun}{$MetaT} += $TPM;
 			}		
-		}	
-		$Fun2MetaT{$fun}{$MetaT} = $MetaT_TPM_value;
+		}
 	}
 }
-
 
 open OUT, ">Fun2MetaT_abundance.txt";
 my $row=join("\t", @MetaT_id);
