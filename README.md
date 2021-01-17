@@ -160,7 +160,7 @@ This script produces two tables named "MAG_average_coverage.Group2Row_Mean_MetaG
 
 **Step 3**  03.parse_fun_normalized_abundance.Sep_Mapping.MetaT.v2.pl
 
-Calculate normalized coverage for each functional trait. The input files for MAG metagenome coverage are from Step 5 of Metagenome and metatranscriptome mapping (values are transformed into percentages for each environment). Resulted files are named as "*.Fun2MetaG_abundance.txt". All the results are then combined into "Functional_analysis_summary.mdf.txt" (numbers are transferred into integers), which is provided in the folder.
+Calculate normalized coverage for each functional trait. The input files for MAG metagenome coverage are from Step 5 of Metagenome and metatranscriptome mapping (values are transformed into percentages for each environment). Resulted files are named as "*.Fun2MetaG_abundance.txt". All the results are then combined into "Functional_analysis_summary.txt" (numbers are transferred into integers), which is provided in the folder.
 
 **Step 4**  04.get_taxa_for_enriched_functions.pl
 
