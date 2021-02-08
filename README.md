@@ -1,4 +1,4 @@
-# Hydrothermal_plume_omics_Zhou_et_al._2020
+# Hydrothermal_plume_omics_Zhou_et_al._2021
 
 This GitHub repository contains bioinformatic analyzing methods within the manuscript:
 
