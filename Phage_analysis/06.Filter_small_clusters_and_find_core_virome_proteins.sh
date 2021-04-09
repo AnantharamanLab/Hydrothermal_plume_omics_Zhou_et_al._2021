@@ -1,2 +1,0 @@
-#python3 /slowdata/home/kieft/Scripts/mmseqs_parse.py All_plume_phage_drep95_all_seqs.fasta All_plume_phage_min10prot 10
-python3 /slowdata/home/kieft/Scripts/mmseqs-parse_core-unique-flexible.py -i All_plume_phage_drep95_looseCluster2_all_seqs_mdf.fasta -l 7 -o core-unique-flexible_result
