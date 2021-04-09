@@ -1,4 +1,4 @@
-# Hydrothermal_plume_omics_Zhou_et_al._2020
+# Hydrothermal_plume_omics_Zhou_et_al._2021
 
 This GitHub repository contains bioinformatic analyzing methods within the manuscript:
 
@@ -63,17 +63,17 @@ Dereplicate phage proteins first according to their sequence similarity.  The se
 
 Run MMseqs2 to cluster all phage proteins. The settings are "--min-seq-id 0.25 -c 0.5 -s 7.5 -e 0.001".
 
-**Step 6** 06.Filter_small_clusters.sh
+**Step 6** 06.Filter_small_clusters_and_find_core_virome_proteins.sh and mmseqs-parse_core-unique-flexible.py
 
-Filter small clusters which contain proteins from only 10 genomes. This will result a folder named "\*mmseqs_clusters", within which all cluster proteins are provided as "cluster_\*.faa".
+Filter small clusters which contain < 5 proteins and find core, flexible, and unique virome proteins.  This will result a resulted folder containing three subfolders. The minimum number of samples/locations for core virome proteins is 7. 
 
 **Step 7** 07.Make_genome_list.pl
 
-Firstly, use "ls" to make a list for all cluster protein files in folder "\*mmseqs_clusters" and name the list as "cluster_list.txt". Secondly, use this script to make "genomes_list.txt" in folder "\*mmseqs_clusters".
+Firstly, use "ls" to make a list for all cluster protein files in core virome folder and name the list as "cluster_list.txt". Secondly, use this script to make "genomes_list.txt" in the folder. Since I combined Axial.Plume and Axial.Seawater into one Axial, so I modified the "genomes_list.txt" as "genomes_list.mdf.txt".
 
 **Step 8** 08.Count_cluster_hits_by_genome.sh and count_cluster_hits_by_genome.py
 
-Count cluster hits by genome, and write result into a table within folder "\*mmseqs_clusters".
+Count core virome cluster hits by genome, and write result into a table within the folder
 
 **Step 9** 09.Make_metadata.pl
 
