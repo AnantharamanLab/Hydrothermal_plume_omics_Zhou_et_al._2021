@@ -1,19 +1,20 @@
 # Hydrothermal_plume_omics_Zhou_et_al._2021
 
-This GitHub repository contains bioinformatic analyzing methods within the manuscript:
+[Description] This GitHub repository contains bioinformatic analyzing methods within the manuscript:
 
-XXX
+XXX. The bioRxiv preprint can be found [here](https://www.biorxiv.org/content/10.1101/2020.08.24.253096v1). 
 
-The bioRxiv preprint of this manuscript can be found [here](https://www.biorxiv.org/content/10.1101/2020.08.24.253096v1). 
+[Authors] Zhichao Zhou, Karthik Anantharaman
+
+[Affiliation] Department of Bacteriology, University of Wisconsin-Madison 
+
+[Links] [Lab](https://anantharamanlab.com/)  [Department](https://bact.wisc.edu/)  [Copyright](https://github.com/AnantharamanLab/Hydrothermal_plume_omics_Zhou_et_al._2021/blob/main/Copyright.md)
+
+[Contacts] Zhichao Zhou,  zczhou2017@gmail.com & zzhou388@wisc.edu
+
+​                   Karthik Anantharaman,   karthik@bact.wisc.edu 
 
 
-
-10/6/2020  
-Zhichao Zhou   
-Karthik Anantharaman  
-Department of Bacteriology, University of Wisconsin-Madison 
-
-[Anantharaman Lab link](https://anantharamanlab.com/)
 
 
 ## Table of Contents:
@@ -30,7 +31,9 @@ Department of Bacteriology, University of Wisconsin-Madison
 
 [Energy distribution calculation based on MetaGs](#energy_distribution)
 
-[Contact](#contact)
+[SSU sequence parsing from MAGs](#ssu_parsing)
+
+
 
 
 ## Explanations
@@ -39,9 +42,9 @@ Department of Bacteriology, University of Wisconsin-Madison
 ### Phage analysis <a name="phage_analysis"></a>
 _Dependencies_: Perl v5.22.1, MMseqs2 Version: 7.4e23d, Python 3.5.2
 
-(Higher version of each software should be OK, normally. Detailed information for backward compatibility could be found in the official website for each software)
+(Higher version of each software should be OK, normally. Detailed information for backward compatibility could be found on the official website for each software)
 
-_Explanation to each step in the pipeline:_  
+_Explanation of each step in the pipeline:_  
 
 **Step 1** 01.Get_statistics_from_VIBRANT_result.pl
 
@@ -109,9 +112,9 @@ Mapping metagenomic and metatranscriptomic reads separately for each environment
 
 _Dependencies_: Perl v5.22.1, Bowtie 2 v2.3.4.1, jgi_summarize_bam_contig_depths (within metaWrap v1.0.2), pileup.sh (within BBmap)
 
-(Higher version of each software should be OK, normally. Detailed information for backward compatibility could be found in the official website for each software)
+(Higher version of each software should be OK, normally. Detailed information for backward compatibility could be found on the official website for each software)
 
-_Explanation to each step in the pipeline:_   
+_Explanation of each step in the pipeline:_   
 
 **Step 1**  01.Transcriptom_mapping.Sep_Mapping.in_33.pl
 
@@ -147,9 +150,9 @@ Calculate each gene average MetaT expression level based on the result from Step
 
 _Dependencies_: Perl v5.22.1, R version 4.0.2, R Studio Version 1.3.1073
 
-(Higher version of each software should be OK, normally. Detailed information for backward compatibility could be found in the official website for each software)
+(Higher version of each software should be OK, normally. Detailed information for backward compatibility could be found on the official website for each software)
 
-_Explanation to each step in the pipeline:_    
+_Explanation of each step in the pipeline:_    
 **Step 1**  01.get_the_statistics_of_group_MetaG_abundance.pl
 
 This script produces a table named "MetaG.10times.3_ecosystem.Group2MetaG_id_MetaG.xls" which contains the total gene coverage (10 times of the original gene coverage) of each microbial group. The gene coverage was used by multiplying 10, because the original numbers are too small. After this, we make a new table, named "MetaG.10times.3_ecosystem.Group2MetaG_id_MetaG.integer.txt" which transfers all the numbers from the previous table into integers. This will be used as the input for R script "DESeq2.MAG.coverage.3ecosystem.R ". The template input files, including "MAG_average_coverage.10times.txt" and "MAG_info.txt", are provided in the folder.
@@ -193,7 +196,7 @@ _Dependencies_: Perl v5.22.1, Bowtie 2 v2.3.4.1, jgi_summarize_bam_contig_depths
 
 (Higher version of each software should be OK, normally. Detailed information for backward compatibility could be found in the official website for each software)
 
-_Explanation to each step in the pipeline:_   
+_Explanation of each step in the pipeline:_   
 
 **Step 1**  01.Transcriptom_mapping_in_33.pl
 
@@ -231,7 +234,7 @@ Calculate normalized coverage for each function trait based on metagenomes. The 
 
 Calculate normalized coverage for each function trait based on metatranscriptomes. The input files for MAG metatranscriptome coverage (or referred to as MAG expression level) files are from Step 7 of metatranscriptome mapping ("MetaT.TPM.txt"). Resulted files are named as "Fun2MetaT_abundance.txt". 
 
-#### **Sub-analysis**:
+#### **Sub-analyses**:
 
 1. ##### DESeq2 for *p* value
 
@@ -305,9 +308,9 @@ Routine [QIIME](http://qiime.org/) 16S rRNA gene analyzing method was used to in
 
 _Dependencies_: Perl v5.22.1, Excel (Microsoft 365 Apps)
 
-(Higher version of each software should be OK, normally. Detailed information for backward compatibility could be found in the official website for each software)
+(Higher version of each software should be OK, normally. Detailed information for backward compatibility could be found on the official website for each software)
 
-_Explanation to each step in the pipeline:_   
+_Explanation of each step in the pipeline:_   
 
 **Step 1** 01.parse_electron_transfer_MetaG_fun_norm_abund_v2.pl
 
@@ -321,10 +324,46 @@ Use Excel formula to calculate energy contribution for each electron donor. It w
 
 We used a similar calculation method for energy contribution based on metatranscriptomes. Detailed are not provided here.
 
-​    
 
-### Contact <a name="contact"></a>
 
-Zhichao Zhou,  zczhou2017@gmail.com & zzhou388@wisc.edu
+###  SSU sequence parsing from MAGs <a name="ssu_parsing"></a>
 
-Karthik Anantharaman,   karthik@bact.wisc.edu 
+_Dependencies_: Perl v5.22.1, CheckM v1.1.13
+
+(Higher version of each software should be OK, normally. Detailed information for backward compatibility could be found on the official website for each software)
+
+_Explanation of each step in the pipeline:_  
+
+**Step 1** 01.run_checkM_for_bins.sh
+
+Run CheckM for all MAGs. Note that this should be run under the CheckM conda environment.
+
+**Step 2** 02.find_ssu.sh
+
+Use "checkm ssu_finder" to find SSU sequences
+
+**Step 3** 03.parse_to_get_checkm2tax.pl
+
+Parse the CheckM result txt file to get the CheckM taxonomy map result
+
+**Step 4** 04.make_Bin_tax_list.pl
+
+Parse the CheckM result txt file to get bin to taxonomy map result
+
+**Step 5** 05.parse_all_ssu.pl
+
+Parse the "ssu_finder" result to get all bin SSU sequences and the total scaffold info
+
+**Step 6** 06.make_MAG_tax_16S_tax_comparing_table.pl
+
+After we used SILVA SINA aligner to get the taxonomy of all bin SSU sequences, we 
+
+make a summary table to allow a direct comparison between SSU and MAG taxonomy.
+
+**Step 7** 07.delete_erroneous_ssu.pl
+
+After manual comparison based on the summary table generated from Step 6, we created new genomes by deleting the error SSU sequence-located scaffolds. 
+
+
+
+
